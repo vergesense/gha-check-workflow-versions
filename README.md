@@ -1,5 +1,6 @@
 # gha-check-workflow-versions
-Checks if workflow is on latest release
+Runs a check on the targeted workflow to see if it's on the latest release.
 
 # Related Links
-[Other Vergesense GHA Repositories](https://github.com/vergesense?q=gha-&type=all&language=&sort=)
+- [Reusable Workflow Documentation](https://docs.github.com/en/actions/learn-github-actions/reusing-workflows)
+- [Other Vergesense GHA Repositories](https://github.com/vergesense?q=gha-&type=all&language=&sort=)
