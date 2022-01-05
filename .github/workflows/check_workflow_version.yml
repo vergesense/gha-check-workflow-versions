@@ -1,5 +1,5 @@
 ---
-name: check workflow versions
+name: check workflow version
 on:
   workflow_call:
     inputs:
@@ -82,7 +82,7 @@ jobs:
         uses: actions/github-script@v5
         if: contains(steps.script.outputs.stdout, 'Newer release available')
         with:
-          github-token: ${{ secrets.DEVOPS_GITHUB_MACHINE_PAT }}
+          github-token: ${{ secrets.github-access-token }}
           script: |
             github.rest.issues.createComment({
             issue_number: context.issue.number,
