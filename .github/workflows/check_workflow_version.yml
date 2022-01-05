@@ -21,7 +21,7 @@ on:
 
 jobs:
   build:
-    name: check version
+    name: check workflow version
     runs-on: ubuntu-latest
     steps:
       - name: set-env-vars
@@ -29,7 +29,7 @@ jobs:
           echo "REPO_NAME=${{ inputs.repo-name }}" >> $GITHUB_ENV
           echo "REUSABLE_WORKFLOW_JOB_ID=${{ inputs.reusable-workflow-job-id }}" >> $GITHUB_ENV
           echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}" >> $GITHUB_ENV
-      - id: ci
+      - id: get_latest_workflow_version
         uses: pozetroninc/github-action-get-latest-release@master
         with:
           owner: vergesense
@@ -37,8 +37,8 @@ jobs:
           excludes: prerelease, draft
       - id: output_version
         run: |
-          echo "version is ${{ steps.ci.outputs.release }}"
-          echo "::set-output name=WORKFLOW_VERSION::${{ steps.ci.outputs.release }}"
+          echo "version is ${{ steps.get_latest_workflow_version.outputs.release }}"
+          echo "::set-output name=WORKFLOW_VERSION::${{ steps.get_latest_workflow_version.outputs.release }}"
       - uses: actions/setup-python@v2
       - name: Install dependencies
         run: |
@@ -46,7 +46,7 @@ jobs:
           pip install pyyaml packaging
       - uses: actions/checkout@v2
       - uses: jannekem/run-python-script-action@v1
-        id: script
+        id: version_compare
         with:
           fail-on-error: false
           script: |
@@ -71,16 +71,16 @@ jobs:
             else:
                 print("Newer release available:",latest_release_version)
       - name: Print errors
-        if: steps.script.outputs.error == 'true'
+        if: steps.version_compare.outputs.error == 'true'
         run: |
           printenv "SCRIPT_STDOUT"
           printenv "SCRIPT_STDERR"
         env:
-          SCRIPT_STDOUT: ${{ steps.script.outputs.stdout }}
-          SCRIPT_STDERR: ${{ steps.script.outputs.stderr }}
+          SCRIPT_STDOUT: ${{ steps.version_compare.outputs.stdout }}
+          SCRIPT_STDERR: ${{ steps.version_compare.outputs.stderr }}
       - name: 'Comment PR'
         uses: actions/github-script@v5
-        if: contains(steps.script.outputs.stdout, 'Newer release available')
+        if: contains(steps.version_compare.outputs.stdout, 'Newer release available')
         with:
           github-token: ${{ secrets.github-access-token }}
           script: |
