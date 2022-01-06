@@ -52,11 +52,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml packaging
       - uses: actions/checkout@v2
-      - name: Display the path
+      - name: Version compare
         id: version_compare
         run: |
           import yaml
-          import os
           from packaging import version
 
           latest_release_version = "5"
@@ -73,15 +72,13 @@ jobs:
           is_latest_major_release = version.parse(major_version) <= version.parse(current_version_used)
 
           if is_latest_major_release:
-              print(f"::set-output name=IS_LATEST_RELEASE::'true'")
-              print("Currently using latest release version.")
+              print("::set-output name=IS_LATEST_RELEASE::'true'")
           else:
-              print(f"::set-output name=IS_LATEST_RELEASE::'false'")
-              print("Newer release available:",latest_release_version)
+              print("::set-output name=IS_LATEST_RELEASE::'false'")
         shell: python
       - name: 'Comment PR'
         uses: actions/github-script@v5
-        if: contains(env.IS_LATEST_RELEASE, 'false')
+        if: contains(steps.version_compare.outputs.IS_LATEST_RELEASE, 'false')
         with:
           github-token: ${{ secrets.github-access-token }}
           script: |
