@@ -1,5 +1,5 @@
 ---
-name: check workflow versions
+name: check workflow version
 on:
   workflow_call:
     inputs:
@@ -22,7 +22,7 @@ on:
 
 jobs:
   build:
-    name: check workflow versions
+    name: check workflow latest major version
     runs-on: ubuntu-latest
     steps:
       - name: set-env-vars
