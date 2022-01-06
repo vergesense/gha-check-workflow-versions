@@ -73,11 +73,11 @@ jobs:
           is_latest_major_release = version.parse(major_version) <= version.parse(current_version_used)
 
           if is_latest_major_release:
+              print(f"::set-output name=IS_LATEST_RELEASE::'true'")
               print("Currently using latest release version.")
-              os.system(echo "IS_LATEST_RELEASE='true'" >> "$GITHUB_ENV")
           else:
+              print(f"::set-output name=IS_LATEST_RELEASE::'false'")
               print("Newer release available:",latest_release_version)
-              os.system(echo "IS_LATEST_RELEASE=false" >> "$GITHUB_ENV")
         shell: python
       - name: 'Comment PR'
         uses: actions/github-script@v5
