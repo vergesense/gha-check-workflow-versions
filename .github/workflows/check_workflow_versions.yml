@@ -64,12 +64,13 @@ jobs:
             url = file_contents['jobs']["${{ env.REUSABLE_WORKFLOW_JOB_ID }}"]['uses']
             url_array = url.split("/")[4]
             current_version_used = url_array.split("@")[1]
+            major_version = latest_release_version.split(".")[0]
 
             print("latest_release_version",latest_release_version,"current_version_used",current_version_used)
 
-            is_latest_release = version.parse(latest_release_version) <= version.parse(current_version_used)
+            is_latest_major_release = version.parse(major_version) <= version.parse(current_version_used)
 
-            if is_latest_release:
+            if is_latest_major_release:
                 print("Currently using latest release version.")
             else:
                 print("Newer release available:",latest_release_version)
