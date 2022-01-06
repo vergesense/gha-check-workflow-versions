@@ -20,3 +20,14 @@ jobs:
           yamllint_file_or_dir: '.github/workflows'
           yamllint_strict: false
           yamllint_config_filepath: '.yamllint'
+  actionlint:
+    runs-on: ubuntu-latest
+    container:
+      image: rhysd/actionlint:1.6.8
+      options: --user root
+    steps:
+      - uses: actions/checkout@v2
+      - name: run-actionlint
+        run: |
+          mkdir .git
+          actionlint -color
