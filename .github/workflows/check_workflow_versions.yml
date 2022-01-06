@@ -27,9 +27,11 @@ jobs:
     steps:
       - name: set-env-vars
         run: |
-          echo "REPO_NAME=${{ inputs.repo-name }}" >> "$GITHUB_ENV"
-          echo "REUSABLE_WORKFLOW_JOB_ID=${{ inputs.reusable-workflow-job-id }}" >> "$GITHUB_ENV"
-          echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}" >> "$GITHUB_ENV"
+          {
+            echo "REPO_NAME=${{ inputs.repo-name }}"
+            echo "REUSABLE_WORKFLOW_JOB_ID=${{ inputs.reusable-workflow-job-id }}"
+            echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}"
+          } >> "$GITHUB_ENV"
       - id: get_latest_workflow_version
         uses: pozetroninc/github-action-get-latest-release@master
         with:
