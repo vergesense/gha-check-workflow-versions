@@ -9,7 +9,7 @@ on:
 
 jobs:
   check-workflow-version:
-    uses: vergesense/gha-check-workflow-versions/.github/workflows/check_workflow_versions.yml@v1
+    uses: vergesense/gha-check-workflow-versions/.github/workflows/check_workflow_versions.yml@DEV-394
     with:
       repo-name: 'gha-workflow-ci'
       reusable-workflow-job-id: workflow-ci
