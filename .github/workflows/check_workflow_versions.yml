@@ -92,6 +92,6 @@ jobs:
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: "Newer version available: ${{ steps.output_version.outputs.WORKFLOW_VERSION }} \r\n \
+            body: "New major version available: ${{ steps.output_version.outputs.WORKFLOW_VERSION }} \r\n \
             https://github.com/vergesense/${{ env.REPO_NAME }}"
             })

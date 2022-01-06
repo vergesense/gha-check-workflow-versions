@@ -8,23 +8,13 @@ on:
       - main
 
 jobs:
-  yamllint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-      - run: pip install yamllint==1.26.3
-      - run: yamllint .
-  actionlint:
-    runs-on: ubuntu-latest
-    container:
-      image: rhysd/actionlint:1.6.8
-      options: --user root
-    steps:
-      - uses: actions/checkout@v2
-      - name: run-actionlint
-        run: |
-          mkdir .git
-          actionlint -color
+  check-workflow-version:
+    uses: vergesense/gha-check-workflow-versions/.github/workflows/check_workflow_versions.yml@v1
+    with:
+      repo-name: 'gha-workflow-ci'
+      reusable-workflow-job-id: workflow-ci
+      gha-workflow-file-name: ci.yml
+    secrets:
+      github-access-token: ${{ secrets.DEVOPS_GITHUB_MACHINE_PAT }}
+  workflow-ci:
+    uses: vergesense/gha-workflow-ci/.github/workflows/workflow_ci.yml@v1
