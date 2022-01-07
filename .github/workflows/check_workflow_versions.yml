@@ -47,8 +47,8 @@ jobs:
             core.setOutput('release', releases[0].tag_name);
       - id: output_version
         run: |
-          echo "version is ${{ steps.get_latest_release_version.outputs.release }}"
-          echo "::set-output name=WORKFLOW_VERSION::${{ steps.get_latest_release_version.outputs.release }}"
+          echo "version is ${{ steps.get_latest_release_version.outputs.result }}"
+          echo "::set-output name=WORKFLOW_VERSION::${{ steps.get_latest_release_version.outputs.result }}"
       - uses: actions/setup-python@v2
       - name: Install python dependencies
         run: |
@@ -61,7 +61,7 @@ jobs:
           import yaml
           from packaging import version
 
-          latest_release_version = "5"
+          latest_release_version = "${{ steps.output_version.outputs.WORKFLOW_VERSION }}"
           with open("./.github/workflows/${{ env.FILE_NAME }}",'r') as file:
               file_contents = yaml.safe_load(file)
 
@@ -88,6 +88,6 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: "New major version available:  \r\n \
+              body: "New major version available: ${{ steps.output_version.outputs.WORKFLOW_VERSION }}  \r\n \
               https://github.com/vergesense/${{ env.REPO_NAME }}"
             })
