@@ -15,10 +15,6 @@ on:
         description: The name of the reusable workflow github actions file.
         required: true
         type: string
-    # secrets:
-    #   github-access-token:
-    #     description: Github authentication token needed to post a comment in the PR.
-    #     required: true
 
 jobs:
   build:
@@ -87,7 +83,6 @@ jobs:
         uses: actions/github-script@v5
         if: contains(steps.version_compare.outputs.IS_LATEST_RELEASE, 'false')
         with:
-          github-token: ${{ secrets.github-access-token }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
