@@ -32,20 +32,29 @@ jobs:
             echo "REUSABLE_WORKFLOW_JOB_ID=${{ inputs.reusable-workflow-job-id }}"
             echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}"
           } >> "$GITHUB_ENV"
-      # - name: get_latest_release_version
-      # - uses: actions/github-script@v5
-      #   with:
-      #     script: |
-      #       github.rest.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: '👋 Thanks for reporting!'
-      #       })
-      # - id: output_version
-      #   run: |
-      #     echo "version is ${{ steps.get_latest_workflow_version.outputs.release }}"
-      #     echo "::set-output name=WORKFLOW_VERSION::${{ steps.get_latest_workflow_version.outputs.release }}"
+      - name: get_latest_release_version
+      - uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.DEVOPS_GITHUB_MACHINE_PAT }}
+          script: |
+            var owner = 'vergesense'
+            var repo = ${{ env.REPO_NAME }};
+            var owner = 'vergesense';
+
+            var releases  = await github.rest.repos.listReleases({
+              owner: owner,
+              repo: repo,
+            })
+
+            releases = releases.data
+            releases = releases.filter(x => x.prerelease != true);
+            releases = releases.filter(x => x.draft != true);
+
+            core.setOutput('release', releases[0].tag_name);
+      - id: output_version
+        run: |
+          echo "version is ${{ steps.get_latest_workflow_version.outputs.release }}"
+          echo "::set-output name=WORKFLOW_VERSION::${{ steps.get_latest_workflow_version.outputs.release }}"
       - uses: actions/setup-python@v2
       - name: Install python dependencies
         run: |
@@ -83,9 +92,9 @@ jobs:
           github-token: ${{ secrets.github-access-token }}
           script: |
             github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: "New major version available:  \r\n \
-            https://github.com/vergesense/${{ env.REPO_NAME }}"
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "New major version available:  \r\n \
+              https://github.com/vergesense/${{ env.REPO_NAME }}"
             })
