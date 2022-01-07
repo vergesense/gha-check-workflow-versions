@@ -14,7 +14,7 @@ jobs:
       repo-name: 'gha-workflow-ci'
       reusable-workflow-job-id: workflow-ci
       gha-workflow-file-name: ci.yml
-    secrets:
-      github-access-token: ${{ secrets.DEVOPS_GITHUB_MACHINE_PAT }}
+    # secrets:
+    #   github-access-token: ${{ secrets.DEVOPS_GITHUB_MACHINE_PAT }}
   workflow-ci:
     uses: vergesense/gha-workflow-ci/.github/workflows/workflow_ci.yml@v1

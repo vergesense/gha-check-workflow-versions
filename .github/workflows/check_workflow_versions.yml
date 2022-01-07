@@ -15,10 +15,10 @@ on:
         description: The name of the reusable workflow github actions file.
         required: true
         type: string
-    secrets:
-      github-access-token:
-        description: Github authentication token needed to post a comment in the PR.
-        required: true
+    # secrets:
+    #   github-access-token:
+    #     description: Github authentication token needed to post a comment in the PR.
+    #     required: true
 
 jobs:
   build:
@@ -35,7 +35,6 @@ jobs:
       - id: get_latest_release_version
         uses: actions/github-script@v5
         with:
-          github-token: "${{ secrets.github-access-token }}"
           script: |
             var owner = 'vergesense'
             var repo = ${{ env.REPO_NAME }};
