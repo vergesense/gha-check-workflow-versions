@@ -37,7 +37,7 @@ jobs:
         with:
           script: |
             var owner = 'vergesense'
-            var repo = ${{ env.REPO_NAME }};
+            var repo = "${{ env.REPO_NAME }}";
 
             var releases  = await github.rest.repos.listReleases({
               owner: owner,
