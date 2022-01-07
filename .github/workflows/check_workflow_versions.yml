@@ -32,10 +32,10 @@ jobs:
             echo "REUSABLE_WORKFLOW_JOB_ID=${{ inputs.reusable-workflow-job-id }}"
             echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}"
           } >> "$GITHUB_ENV"
-      - name: get_latest_release_version
-      - uses: actions/github-script@v5
+      - id: get_latest_release_version
+        uses: actions/github-script@v5
         with:
-          github-token: ${{ secrets.DEVOPS_GITHUB_MACHINE_PAT }}
+          github-token: "${{ secrets.github-access-token }}"
           script: |
             var owner = 'vergesense'
             var repo = ${{ env.REPO_NAME }};
@@ -53,8 +53,8 @@ jobs:
             core.setOutput('release', releases[0].tag_name);
       - id: output_version
         run: |
-          echo "version is ${{ steps.get_latest_workflow_version.outputs.release }}"
-          echo "::set-output name=WORKFLOW_VERSION::${{ steps.get_latest_workflow_version.outputs.release }}"
+          echo "version is ${{ steps.get_latest_release_version.outputs.release }}"
+          echo "::set-output name=WORKFLOW_VERSION::${{ steps.get_latest_release_version.outputs.release }}"
       - uses: actions/setup-python@v2
       - name: Install python dependencies
         run: |
