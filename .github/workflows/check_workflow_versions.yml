@@ -29,13 +29,14 @@ jobs:
             echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}"
           } >> "$GITHUB_ENV"
       - run: npm install js-yaml
+      - uses: actions/checkout@v2
       - id: get_latest_release_version
         uses: actions/github-script@v5
         with:
           script: |
             const yaml = require('js-yaml')
             const fs = require('fs')
-            const data = yaml.load(fs.readFileSync("${{ env.FILE_NAME }}", 'utf8'))
+            const data = yaml.load(fs.readFileSync(".github/workflows/${{ env.FILE_NAME }}", 'utf8'))
             var workflow_versions = {}
             var outdated_workflows = []
             job_keys = Object.keys(data['jobs'])
