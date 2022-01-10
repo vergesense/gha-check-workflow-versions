@@ -63,7 +63,7 @@ jobs:
                 outdated_workflows.push({ [element] : workflow_versions['check-workflow-version']})
               }
             }
-
+            console.log(outdated_workflows)
             if (outdated_workflows.length > 0) {
                 github.rest.issues.createComment({
                 issue_number: context.issue.number,
