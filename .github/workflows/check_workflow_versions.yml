@@ -28,8 +28,10 @@ jobs:
             echo "REUSABLE_WORKFLOW_JOB_ID=${{ inputs.reusable-workflow-job-id }}"
             echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}"
           } >> "$GITHUB_ENV"
-      - run: npm install js-yaml
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
       - id: get_latest_release_version
         uses: actions/github-script@v5
         with:
