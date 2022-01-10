@@ -72,7 +72,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: `Version mismatch detected: \r\n \
-                ${JSON.stringify(outdated_workflows,null,2).replace(/[{}]/g, "").replace((/[\[\]']+/g,''))}
+                ${JSON.stringify(outdated_workflows,null,2).replace(/[{}]/g, "").replace(/[\[\]']+/g,''))}
                 `
               })
             }
