@@ -15,6 +15,6 @@ jobs:
       reusable-workflow-job-id: workflow-ci
       gha-workflow-file-name: ci.yml
   workflow-ci:
-    uses: vergesense/gha-workflow-ci/.github/workflows/workflow_ci.yml@v1
+    uses: vergesense/gha-workflow-ci/.github/workflows/workflow_ci.yml@main
     with:
       actionlint-ignore: -ignore 'property ".+" is not defined in object type'
