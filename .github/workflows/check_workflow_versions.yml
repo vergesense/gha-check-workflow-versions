@@ -70,6 +70,6 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: "Version mismatch detected: \r\n \
-                outdated_workflows"
+                `${outdated_workflows}`"
               })
             }
