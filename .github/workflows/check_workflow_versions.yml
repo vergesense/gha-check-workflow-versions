@@ -63,13 +63,15 @@ jobs:
                 outdated_workflows.push({ [element] : workflow_versions['check-workflow-version']})
               }
             }
+
             console.log(outdated_workflows)
+
             if (outdated_workflows.length > 0) {
                 github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: `Version mismatch detected: \r\n \
-                ${outdated_workflows}`
+                ${JSON.stringify(outdated_workflows,null,2)}`
               })
             }
