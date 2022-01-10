@@ -47,7 +47,7 @@ jobs:
             for (const element of job_keys) {
               owner = data['jobs'][element]['uses'].split('/')[0]
               repo = data['jobs'][element]['uses'].split('/')[1]
-              var releases  = await octokit.rest.repos.listReleases({
+              var releases  = await github.rest.repos.listReleases({
                 owner: owner,
                 repo: repo,
               })
