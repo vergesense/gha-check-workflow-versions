@@ -3,14 +3,6 @@ name: check workflow version
 on:
   workflow_call:
     inputs:
-      repo-name:
-        description: The name of the repository the reusable workflow is kept in.
-        required: true
-        type: string
-      reusable-workflow-job-id:
-        description: The job id that is running the reusable workflow.
-        required: true
-        type: string
       gha-workflow-file-name:
         description: The name of the reusable workflow github actions file.
         required: true
@@ -24,8 +16,6 @@ jobs:
       - name: set-env-vars
         run: |
           {
-            echo "REPO_NAME=${{ inputs.repo-name }}"
-            echo "REUSABLE_WORKFLOW_JOB_ID=${{ inputs.reusable-workflow-job-id }}"
             echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}"
           } >> "$GITHUB_ENV"
       - uses: actions/checkout@v2

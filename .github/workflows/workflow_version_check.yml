@@ -3,7 +3,7 @@ name: workflow_version_check
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, reopened]
 
 
 jobs:
