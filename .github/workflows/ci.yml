@@ -9,6 +9,6 @@ on:
 
 jobs:
   workflow-ci:
-    uses: vergesense/gha-workflow-ci/.github/workflows/workflow_ci.yml@main
+    uses: vergesense/gha-workflow-ci/.github/workflows/workflow_ci.yml@v1
     with:
       actionlint-ignore: -ignore 'property ".+" is not defined in object type'
