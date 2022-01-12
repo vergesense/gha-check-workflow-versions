@@ -29,31 +29,37 @@ jobs:
           script: |
             const yaml = require('js-yaml')
             const fs = require('fs')
-            const data = yaml.load(fs.readFileSync(".github/workflows/${{ env.FILE_NAME }}", 'utf8'))
             var workflow_versions = {}
             var outdated_workflows = []
-            job_keys = Object.keys(data['jobs'])
+            var files = fs.readdirSync('.github/workflows/');
 
-            for (const element of job_keys) {
-              owner = data['jobs'][element]['uses'].split('/')[0]
-              repo = data['jobs'][element]['uses'].split('/')[1]
-              var releases  = await github.rest.repos.listReleases({
-                owner: owner,
-                repo: repo,
-              })
-              releases = releases.data
-              releases = releases.filter(x => x.prerelease != true)
-              releases = releases.filter(x => x.draft != true)
-              latest_major_release = releases[0].tag_name.split(".")[0]
-              current_version = data['jobs'][element]['uses'].split('/')[4].split('@')[1]
-              workflow_versions[element] = {'latest_major_release': latest_major_release, 'current_version': current_version}
+            for (const file_name of files) {
+              data = yaml.load(fs.readFileSync(`.github/workflows/${file_name}`, 'utf8'))
+              job_keys = Object.keys(data['jobs'])
 
-              if (workflow_versions[element]['latest_major_release'] != workflow_versions[element]['current_version']) {
-                console.log(element+'version mismatch, adding to outdated_workflows array')
-                outdated_workflows.push({ [element] : workflow_versions['check-workflow-version']})
+              for (const element of job_keys) {
+                owner = data['jobs'][element]['uses'].split('/')[0]
+                repo = data['jobs'][element]['uses'].split('/')[1]
+                var releases  = await github.rest.repos.listReleases({
+                  owner: owner,
+                  repo: repo,
+                })
+                releases = releases.data
+                releases = releases.filter(x => x.prerelease != true)
+                releases = releases.filter(x => x.draft != true)
+                latest_major_release = releases[0].tag_name.split(".")[0]
+                current_version = data['jobs'][element]['uses'].split('/')[4].split('@')[1]
+                workflow_versions[element] = {'latest_major_release': latest_major_release, 'current_version': current_version}
+
+                if (workflow_versions[element]['latest_major_release'] != workflow_versions[element]['current_version']) {
+                  console.log(element+'version mismatch, adding to outdated_workflows array')
+                  outdated_workflows.push({ [element] : workflow_versions['check-workflow-version']})
+                }
               }
             }
-
+            console.log('workflow versions')
+            console.log(workflow_versions)
+            console.log('outdated_workflows')
             console.log(outdated_workflows)
 
             if (outdated_workflows.length > 0) {
