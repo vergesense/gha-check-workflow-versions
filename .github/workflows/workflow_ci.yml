@@ -3,9 +3,13 @@ name: ci
 
 on:
   pull_request:
+    paths:
+      - '*.ya?ml'
   push:
     branches:
       - main
+    paths:
+      - '*.ya?ml'
 
 jobs:
   workflow-ci:
