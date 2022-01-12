@@ -33,6 +33,10 @@ jobs:
               job_keys = Object.keys(data['jobs'])
 
               for (const element of job_keys) {
+                if (typeof data['jobs'][element]['uses'] == 'undefined') {
+                  console.log(`data['jobs'][${job_keys}]['uses']`+'is undefined')
+                  continue
+                }
                 owner = data['jobs'][element]['uses'].split('/')[0]
                 repo = data['jobs'][element]['uses'].split('/')[1]
                 var releases  = await github.rest.repos.listReleases({
