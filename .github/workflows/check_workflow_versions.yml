@@ -34,7 +34,7 @@ jobs:
 
               for (const element of job_keys) {
                 if (typeof data['jobs'][element]['uses'] == 'undefined') {
-                  console.log(`data['jobs'][${job_keys}]['uses']`+'is undefined')
+                  console.log(`data['jobs'][${job_keys}]['uses']`+' is undefined, skipping...')
                   continue
                 }
                 owner = data['jobs'][element]['uses'].split('/')[0]
