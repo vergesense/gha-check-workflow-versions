@@ -2,11 +2,6 @@
 name: check workflow version
 on:
   workflow_call:
-    inputs:
-      gha-workflow-file-name:
-        description: The name of the reusable workflow github actions file.
-        required: true
-        type: string
 
 jobs:
   build:
@@ -49,7 +44,7 @@ jobs:
                 releases = releases.filter(x => x.draft != true)
                 latest_major_release = releases[0].tag_name.split(".")[0]
                 current_version = data['jobs'][element]['uses'].split('/')[4].split('@')[1]
-                workflow_versions[element] = {'latest_major_release': latest_major_release, 'current_version': current_version}
+                workflow_versions[element] = {'latest_major': latest_major_release, 'current_major': current_version}
 
                 if (workflow_versions[element]['latest_major_release'] != workflow_versions[element]['current_version']) {
                   console.log(element+'version mismatch, adding to outdated_workflows array')
