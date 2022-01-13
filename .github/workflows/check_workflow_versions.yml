@@ -8,11 +8,6 @@ jobs:
     name: check workflow latest major version
     runs-on: ubuntu-latest
     steps:
-      - name: set-env-vars
-        run: |
-          {
-            echo "FILE_NAME=${{ inputs.gha-workflow-file-name }}"
-          } >> "$GITHUB_ENV"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
